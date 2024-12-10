@@ -1,9 +1,10 @@
-*{
+* {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-.task{
+
+.task {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,48 +14,98 @@
     border-radius: 5px;
     border: 1px solid #ddd;
     animation: defaultColorAnimation 1s forwards;
-    button{
+
+    .task-details {
+        font-size: 12px;
+        color: #666;
+    }
+
+    button {
         animation: greenColorAnimation 1s forwards;
         width: 100px;
         text-align: center;
-        &.completion-button{
+
+        &.completion-button {
             margin-right: 8px;
         }
     }
 }
 
-.completed-task{
-  animation: greenColorAnimation 1s forwards;
-    button{
-       animation: defaultColorAnimation 1s forwards;
-        &:hover{
+.completed-task {
+    animation: greenColorAnimation 1s forwards;
+
+    button {
+        animation: defaultColorAnimation 1s forwards;
+        
+        &:hover {
             background-color: #ddd;
         }
     }
 }
+
+.late-task {
+    background-color: #f44336;
+    color: white;
+    animation: lateColorAnimation 1s forwards;
+
+    button {
+        animation: redColorAnimation 1s forwards;
+
+        &:hover {
+            background-color: #d32f2f;
+        }
+    }
+
+    .task-details {
+        color: white;
+    }
+}
+
 @keyframes greenColorAnimation {
-    from{
+    from {
         background-color: #f9f9f9;
-        color:#28a745
+        color: #28a745;
     }
-    to{
+    to {
         background-color: #28a745;
         color: #f9f9f9;
     }
 }
+
 @keyframes defaultColorAnimation {
-    from{
+    from {
         background-color: #28a745;
         color: #f9f9f9;
     }
-    to{
-        
+    to {
         background-color: #f9f9f9;
-        color:#28a745
-    
+        color: #28a745;
     }
 }
-.scroll-container{
+
+@keyframes lateColorAnimation {
+    from {
+        background-color: #f9f9f9;
+        color: #f44336;
+    }
+    to {
+        background-color: #f44336;
+        color: #f9f9f9;
+    }
+}
+
+@keyframes redColorAnimation {
+    from {
+        background-color: #f9f9f9;
+        color: #f44336;
+    }
+    to {
+        background-color: #f44336;
+        color: #f9f9f9;
+    }
+}
+
+.scroll-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -62,18 +113,20 @@
     height: 30px;
     background-color: #f0f0f0;
     z-index: 9;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    .scroll-progress{
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    .scroll-progress {
         position: absolute;
-        top:0;
-        left:0;
+        top: 0;
+        left: 0;
         height: 80%;
         width: 100%;
         background-color: #28a745;
         transform-origin: left;
         transform: scaleX(0);
         transition: transform 0.25s ease-out;
-        &.scroll-progress-active::before{
+
+        &.scroll-progress-active::before {
             transform: scale(1);
         }
     }
