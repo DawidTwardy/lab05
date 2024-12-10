@@ -13,7 +13,21 @@
     border-radius: 5px;
     border: 1px solid #ddd;
 }
+button{
+    width: 100px;
+    text-align: center;
+    &.completion-button{
+        margin-right: 8px;
+    }
+}
 .completed-task{
     color:#fff;
     background-color: #28a745;
+}
+button{
+    color:#28a745;
+    background-color: #f9f9f9;
+    &:hover{
+        background-color: #ddd;
+    }
 }
