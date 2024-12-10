@@ -41,6 +41,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleTaskCompletion, onDe
                                 initial={{ opacity: 0, x: -100 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 100 }}
+                                whileHover={{scale: 1.05}}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                             >
                                 <span className="task-name">{task.name}</span>

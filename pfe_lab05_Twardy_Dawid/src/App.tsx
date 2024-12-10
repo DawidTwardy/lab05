@@ -64,6 +64,7 @@ const deleteTask =(id:number)=>{
       <TaskFilter onFilterChange={handleFilterChange} currentFilter={filter} />
       <TaskForm onAddTask={addTask} />
       <TaskList tasks={filteredTasks} 
+      key={tasks.length}
       onToggleTaskCompletion={toggleTaskCompletion} 
       onDeleteTask={deleteTask}
       />
