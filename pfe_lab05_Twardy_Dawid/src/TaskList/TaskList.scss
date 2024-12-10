@@ -12,8 +12,45 @@
     background-color: #f9f9f9;
     border-radius: 5px;
     border: 1px solid #ddd;
+    animation: defaultColorAnimation 1s forwards;
+    button{
+        animation: greenColorAnimation 1s forwards;
+        width: 100px;
+        text-align: center;
+        &.completion-button{
+            margin-right: 8px;
+        }
+    }
 }
+
 .completed-task{
-    color:#fff;
-    background-color: #28a745;
+  animation: greenColorAnimation 1s forwards;
+    button{
+       animation: defaultColorAnimation 1s forwards;
+        &:hover{
+            background-color: #ddd;
+        }
+    }
+}
+@keyframes greenColorAnimation {
+    from{
+        background-color: #f9f9f9;
+        color:#28a745
+    }
+    to{
+        background-color: #28a745;
+        color: #f9f9f9;
+    }
+}
+@keyframes defaultColorAnimation {
+    from{
+        background-color: #28a745;
+        color: #f9f9f9;
+    }
+    to{
+        
+        background-color: #f9f9f9;
+        color:#28a745
+    
+    }
 }

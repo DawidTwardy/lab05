@@ -55,13 +55,18 @@ const App: React.FC = () => {
     if (filter === "incompleted") return !task.completed;
     return true;
   });
-
+const deleteTask =(id:number)=>{
+  setTasks(tasks.filter(task=>task.id!==id));
+};
   return (
     <div className='App'>
       <h1>To-Do-List</h1>
       <TaskFilter onFilterChange={handleFilterChange} currentFilter={filter} />
       <TaskForm onAddTask={addTask} />
-      <TaskList tasks={filteredTasks} onToggleTaskCompletion={toggleTaskCompletion} />
+      <TaskList tasks={filteredTasks} 
+      onToggleTaskCompletion={toggleTaskCompletion} 
+      onDeleteTask={deleteTask}
+      />
       <p>Completed Tasks: {completedTasksCount}</p>
       <p>Incompleted Tasks:{IncompleteTasks}</p>
       <p>Completion Percentage: {completionPercentage.toFixed(2)}%</p>
