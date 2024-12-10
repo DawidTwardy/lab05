@@ -1,27 +1,50 @@
 import React from "react";
 import { Task } from "../App";
 import "./TaskList.scss";
-interface TaskListProps{
-    tasks:Task[];
-    onToggleTaskCompletion:(id:number)=>void;
-    onDeleteTask:(id:number)=>void;
+import { motion, AnimatePresence, delay } from "framer-motion";
+
+interface TaskListProps {
+    tasks: Task[];
+    onToggleTaskCompletion: (id: number) => void;
+    onDeleteTask: (id: number) => void;
 }
 
-const TaskList:React.FC<TaskListProps>=({tasks,onToggleTaskCompletion,onDeleteTask})=>{
-    return(
-        <ul>
-           {tasks.map((task)=>(
-          <li key={task.id} className={`task ${task.completed ? 'completed-task' : ''} `}>
-            <span> {task.name}</span>
-            <div>
-                <button onClick={()=>onToggleTaskCompletion(task.id)}>
-                {task.completed ? 'undo': 'Complete'};
-                </button>
-                <button onClick={()=>onDeleteTask(task.id)} className="delete-btn">DELETE</button>
-            </div>
-          </li>
-           ))}
+const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleTaskCompletion, onDeleteTask }) => {
+    return (
+        <ul className="task-list">
+            <AnimatePresence>
+                {tasks.map((task,index) => (
+                    <motion.li
+                        key={task.id}
+
+                        layout
+
+                        className={`task ${task.completed ? "completed-task" : ""}`}
+                        initial={{ opacity: 0, x: -100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 100 }}
+                        transition={{ duration: 0.5 ,delay:index*0.1}}
+                    >
+                        <span className="task-name">{task.name}</span>
+                        <div className="task-actions">
+                            <button
+                                onClick={() => onToggleTaskCompletion(task.id)}
+                                className="toggle-completion-btn"
+                            >
+                                {task.completed ? "Undo" : "Complete"}
+                            </button>
+                            <button
+                                onClick={() => onDeleteTask(task.id)}
+                                className="delete-btn"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </motion.li>
+                ))}
+            </AnimatePresence>
         </ul>
     );
 };
+
 export default TaskList;
