@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "sass-embedded": "^1.82.0"
+  },
+  "dependencies": {
+    "framer-motion": "^11.13.4"
   }
 }
