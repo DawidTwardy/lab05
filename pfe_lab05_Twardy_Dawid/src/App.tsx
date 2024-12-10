@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import './App.scss';
+import TaskForm from './TaskForm/TaskForm';
+import TaskList from './TaskList/TaskList';
+import useCompletedTasks from './hooks/useCompletedTasks';
+import useCompletionPercentage from "./hooks/usePrecentTask";
+import TaskFilter from './TaskList/TaskFilter';
+import useIncompleteTasks from './hooks/useIncompletedTast';
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+export interface Task {
+  id: number;
+  name: string;
+  completed: boolean;
 }
 
-export default App
+const App: React.FC = () => {
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
+  const [filter, setFilter] = useState<string>('all');
+
+  const completedTasksCount = useCompletedTasks(tasks);
+  const completionPercentage = useCompletionPercentage(tasks);
+  const IncompleteTasks = useIncompleteTasks(tasks);
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addTask = (taskName: string) => {
+    const newTask: Task = {
+      id: Date.now(),
+      name: taskName,
+      completed: false,
+    };
+    setTasks([...tasks, newTask]);
+  };
+
+  const toggleTaskCompletion = (id: number) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  const handleFilterChange = (filter: string) => {
+    setFilter(filter);
+  };
+
+  const filteredTasks = tasks.filter(task => {
+    if (filter === "completed") return task.completed;
+    if (filter === "incompleted") return !task.completed;
+    return true;
+  });
+
+  return (
+    <div className='App'>
+      <h1>To-Do-List</h1>
+      <TaskFilter onFilterChange={handleFilterChange} currentFilter={filter} />
+      <TaskForm onAddTask={addTask} />
+      <TaskList tasks={filteredTasks} onToggleTaskCompletion={toggleTaskCompletion} />
+      <p>Completed Tasks: {completedTasksCount}</p>
+      <p>Incompleted Tasks:{IncompleteTasks}</p>
+      <p>Completion Percentage: {completionPercentage.toFixed(2)}%</p>
+    </div>
+  );
+};
+
+export default App;
